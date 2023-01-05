@@ -25,7 +25,7 @@ body {
 .calc-numbers {
     display: flex;
     height: 250px;
-    width: 150px;
+    width: 200px;
 }
 
 .buttons {
@@ -43,9 +43,11 @@ body {
     width: 50px;
 }
 
-.buttons button.num0 {
+.buttons button.clear,
+.buttons button.delete {
     width: 100px;
 }
+
 
 .operations {
     display: flex;
