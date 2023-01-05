@@ -17,18 +17,19 @@ html {
 
 .calc-numbers {
     display: flex;
-    height: 200px;
+    height: 250px;
     width: 150px;
 }
 
 .numbers {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     flex-wrap: wrap;
 }
 .numbers button {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 50px;
@@ -36,7 +37,7 @@ html {
 }
 
 .numbers button.num0 {
-    width: 150px;
+    width: 100px;
 }
 
 .operations {
@@ -48,16 +49,6 @@ html {
 }
 
 .operations button {
-    width: 50px;
-    height: 50px;
-}
-
-.calc-container .other-keys {
-    position: relative;
-    bottom: 200px;
-}
-
-.other-keys .clear {
     width: 50px;
     height: 50px;
 }
