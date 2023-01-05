@@ -46,7 +46,7 @@ subtract(5,2);
 multiply(4,3);
 divide(1,3);
 divide(4,2);
-console.log("-------")
+console.log("-------");
 operate("+", 5, 5);
 operate("-", 5, 5);
 operate("*", 5, 5);
