@@ -28,12 +28,12 @@ body {
     width: 150px;
 }
 
-.numbers {
+.buttons {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: wrap;
 }
-.numbers button {
+.buttons button {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -43,7 +43,7 @@ body {
     width: 50px;
 }
 
-.numbers button.num0 {
+.buttons button.num0 {
     width: 100px;
 }
 

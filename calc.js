@@ -1,15 +1,15 @@
 // Select the necessary items from the file
 let calculator = document.querySelector(".calculator");
-let numbers = document.querySelectorAll(".numbers .num");
+let buttons = document.querySelectorAll(".buttons .num");
 let display = document.querySelector(".screen");
 
 let displayValue;
-numbers.forEach((numbers) => {
-    numbers.addEventListener("click", () => {
+buttons.forEach((buttons) => {
+    buttons.addEventListener("click", () => {
         if (!displayValue) {
-            displayValue = numbers.id;
+            displayValue = buttons.id;
         } else if (displayValue) {
-            displayValue += numbers.id;
+            displayValue += buttons.id;
         }
         display.textContent = displayValue;
         // console.log(numbers.id);
