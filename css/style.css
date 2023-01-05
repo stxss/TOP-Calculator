@@ -1,0 +1,63 @@
+html {
+    height: 100%;
+}
+
+.calc-container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-end;
+
+}
+
+.calculator {
+    display: flex;
+
+}
+
+.calc-numbers {
+    display: flex;
+    height: 200px;
+    width: 150px;
+}
+
+.numbers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.numbers button {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
+}
+
+.numbers button.num0 {
+    width: 150px;
+}
+
+.operations {
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.operations button {
+    width: 50px;
+    height: 50px;
+}
+
+.calc-container .other-keys {
+    position: relative;
+    bottom: 200px;
+}
+
+.other-keys .clear {
+    width: 50px;
+    height: 50px;
+}
