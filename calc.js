@@ -67,8 +67,46 @@ buttons.forEach((buttons) => {
 
         }
 
-        
+        // Is the operator flag true?
+        // If it is false
+        if (!isOperator) {
+            // write to n1
+        } else {
+            // write to n2
+        }
 
+        // Is n1 true? (aka does it have a number?)
+        // If it is false
+        if (!n1) {
+            // write to n1
+        } else {
+            // n1 is true, but is the operator flag true?
+            // If it is false
+            if (!isOperator) {
+                // write to n1
+            } else {
+                // write to n2
+            }
+        }
+
+        // Is n2 true? (aka does it have a number?)
+        if (!n2) {
+            // n2 is false, but is the operator flag true?
+            // If it is false
+            if (!isOperator) {
+                // write to n1
+            } else {
+                // write to n2
+            }
+        } else {
+            // n2 is true, but is the equal button flag true?
+            // If it is false
+            if (!eqlBtnFlag) {
+                // Continue writing to n2
+            } else {
+                // output the number
+            }
+        }
 
 
         if ((!isOperator) || (!n1) || (!n2)) {
