@@ -40,12 +40,13 @@ let n2;
 buttons.forEach((buttons) => {
     buttons.addEventListener("click", () => {
 
-
-        
         if (!isOperator) {
             if (!displayValue) {
                 displayValue = buttons.id;
-            } else if (displayValue) {
+            } else if (displayValue && display.classList.contains("result")) {
+                display.classList.remove("result");
+                displayValue = buttons.id;
+            } else if (displayValue && !display.classList.contains("result")) {
                 displayValue += buttons.id;
             }
 
@@ -53,68 +54,73 @@ buttons.forEach((buttons) => {
             n1 = parseInt(displayValue);
 
         } else {
-            if (!secValue) {
-                secValue = buttons.id;
-            } else if (secValue) {
-                secValue += buttons.id;
-            }
-
-            display.textContent = secValue;
-            console.log(secValue);
-
-            n2 = parseInt(secValue);
-            
-
-        }
-
-        // Is the operator flag true?
-        // If it is false
-        if (!isOperator) {
-            // write to n1
-        } else {
-            // write to n2
-        }
-
-        // Is n1 true? (aka does it have a number?)
-        // If it is false
-        if (!n1) {
-            // write to n1
-        } else {
-            // n1 is true, but is the operator flag true?
-            // If it is false
-            if (!isOperator) {
-                // write to n1
-            } else {
-                // write to n2
-            }
-        }
-
-        // Is n2 true? (aka does it have a number?)
-        if (!n2) {
-            // n2 is false, but is the operator flag true?
-            // If it is false
-            if (!isOperator) {
-                // write to n1
-            } else {
-                // write to n2
-            }
-        } else {
-            // n2 is true, but is the equal button flag true?
-            // If it is false
             if (!eqlBtnFlag) {
-                // Continue writing to n2
+                if (!secValue) {
+                    secValue = buttons.id;
+                } else if (secValue) {
+                    secValue += buttons.id;
+                }
+    
+                display.textContent = secValue;
+                console.log(secValue);
+    
+                n2 = parseInt(secValue);
             } else {
-                // output the number
+                console.log(operate(slOperator, displayValue, secValue))
+                display.textContent = operate(slOperator, displayValue, secValue);
+                display.classList.add("result");
             }
         }
+
+        // // Is the operator flag true?
+        // // If it is false
+        // if (!isOperator) {
+        //     // write to n1
+        // } else {
+        //     // write to n2
+        // }
+
+        // // Is n1 true? (aka does it have a number?)
+        // // If it is false
+        // if (!n1) {
+        //     // write to n1
+        // } else {
+        //     // n1 is true, but is the operator flag true?
+        //     // If it is false
+        //     if (!isOperator) {
+        //         // write to n1
+        //     } else {
+        //         // write to n2
+        //     }
+        // }
+
+        // // Is n2 true? (aka does it have a number?)
+        // if (!n2) {
+        //     // n2 is false, but is the operator flag true?
+        //     // If it is false
+        //     if (!isOperator) {
+        //         // write to n1
+        //     } else {
+        //         // write to n2
+        //     }
+        // } else {
+        //     // n2 is true, but is the equal button flag true?
+        //     // If it is false
+        //     if (!eqlBtnFlag) {
+        //         // Continue writing to n2
+        //     } else {
+        //         // output the number
+        //     }
+        // }
 
 
         if ((!isOperator) || (!n1) || (!n2)) {
             console.log(isOperator);
             console.log(n1);
             console.log(n2);
-        } else if ((isOperator) && (n1) && ((!n2) || (!eqlBtnFlag))){
+        } else if ((isOperator) && (n1) && ((n2) && (eqlBtnFlag))){
             operate(slOperator, displayValue, secValue);
+            display.classList.add("result");
             isOperator = !isOperator;
             n1 = undefined;
             n2 = undefined;
@@ -165,7 +171,8 @@ dotBtn.addEventListener("click", () => {
 });
 
 eqlBtn.addEventListener("click", () => {
-
+    eqlBtnFlag = !eqlBtnFlag;
+    console.log(`equals is ${eqlBtnFlag}`);
 });
 
 
