@@ -12,6 +12,13 @@ let sumBth = document.querySelector(".sum");
 let eqlBtn = document.querySelector(".equals");
 let dotBtn = document.querySelector(".dot");
 
+// Setting the flags of each operator button
+let divBtnFlag = false; 
+let mltBtnFlag = false;
+let subBtnFlag = false;
+let sumBtnFlag = false;
+let eqlBtnFlag = false;
+let dotBtnFlag = false;
 
 // Setting the display value to empty, at first
 let displayValue;
@@ -26,22 +33,53 @@ let isOperator = false;
 let slOperator = "";
 
 //  Passing the number values to numbers
-let n1 = parseInt(displayValue);
-let n2 = parseInt(secValue);
+let n1;
+let n2;
 
 // Adding a listener for each of the number buttons, that will update the display when clicked.
 buttons.forEach((buttons) => {
     buttons.addEventListener("click", () => {
-        if (!displayValue) {
-            displayValue = buttons.id;
-        } else if (displayValue) {
-            displayValue += buttons.id;
-        }
-        display.textContent = displayValue;
-        console.log(isOperator);
+
+
         
-        if (isOperator) {
+        if (!isOperator) {
+            if (!displayValue) {
+                displayValue = buttons.id;
+            } else if (displayValue) {
+                displayValue += buttons.id;
+            }
+
+            display.textContent = displayValue;
+            n1 = parseInt(displayValue);
+
+        } else {
+            if (!secValue) {
+                secValue = buttons.id;
+            } else if (secValue) {
+                secValue += buttons.id;
+            }
+
+            display.textContent = secValue;
+            console.log(secValue);
+
+            n2 = parseInt(secValue);
+            
+
+        }
+
+        
+
+
+
+        if ((!isOperator) || (!n1) || (!n2)) {
+            console.log(isOperator);
+            console.log(n1);
+            console.log(n2);
+        } else if ((isOperator) && (n1) && ((!n2) || (!eqlBtnFlag))){
             operate(slOperator, displayValue, secValue);
+            isOperator = !isOperator;
+            n1 = undefined;
+            n2 = undefined;
         }
     });
 });
@@ -50,72 +88,105 @@ buttons.forEach((buttons) => {
 divBtn.addEventListener("click", () => {
     isOperator = true;
     slOperator = "/";
-    // let n1 = parseInt(displayValue);
-    // let n2 = parseInt(secValue);
 
-    if ((n1) && (n2)) {
-        console.log(n1 / n2);
-    } else {
-        console.log("waiting for another number");
-    }
+    divBtnFlag = !divBtnFlag;
 
-    // console.log(divBtn.textContent);
+    console.log(`divider operator is ${divBtnFlag}`);
 });
 
 mltBtn.addEventListener("click", () => {
-    // console.log(mltBtn.textContent);
+    isOperator = true;
+    slOperator = "*";
+
+    mltBtnFlag = !mltBtnFlag;
+
+    console.log(`multiplication operator is ${mltBtnFlag}`);
 });
 
 subBtn.addEventListener("click", () => {
-    // console.log(subBtn.textContent);
+    isOperator = true;
+    slOperator = "-";
+
+    subBtnFlag = !subBtnFlag;
+
+    console.log(`sub operator is ${subBtnFlag}`);
 });
 
 sumBth.addEventListener("click", () => {
-    // console.log(sumBth.textContent);
+    isOperator = true;
+    slOperator = "+";
+
+    sumBtnFlag = !sumBtnFlag;
+
+    console.log(`sum operator is ${sumBtnFlag}`);
+});
+
+
+dotBtn.addEventListener("click", () => {
+
 });
 
 eqlBtn.addEventListener("click", () => {
-    // console.log(eqlBtn.textContent);
-});
 
-dotBtn.addEventListener("click", () => {
-    // console.log(dotBtn.textContent);
 });
-
 
 
 // Basic functions
 
 // Sum function, adds numbers
 function add(num1, num2) {
-    let sum = num1 + num2;
-    console.log(sum);
-    return sum;
+    if ((n1) && (n2)) {
+        num1 = parseInt(num1);
+        num2 = parseInt(num2);
+
+        let sum = (num1 + num2);
+
+        console.log(sum);
+        sumBtnFlag = !sumBtnFlag;
+        display.textContent = sum;
+        return sum;
+    }
 }
 
 // Subtraction function, subtracts numbers
 function subtract(num1, num2) {
-    let sum = num1 - num2;
-    console.log(sum);
-    return sum;
+    if ((n1) && (n2)) {
+        let sum = (num1 - num2);
+
+        console.log(sum);
+        subBtnFlag = !subBtnFlag;
+
+        return sum;
+    }
 }
 
 // Multiplication function, multiplies numbers
 function multiply(num1, num2) {
-    let product = num1 * num2;
-    console.log(product);
-    return product;
+    if ((n1) && (n2)) {
+        let product = (num1 * num2);
+
+        console.log(product);
+        mltBtnFlag = !mltBtnFlag;
+
+        return product;
+    }
 }
 
 // Division function, divides numbers
 function divide(num1, num2) {
-    let product = (num1 / num2);
-    console.log(product);
-    return product;
+    if ((n1) && (n2)) {
+        let product = (num1 / num2);
+
+        console.log(product);
+        divBtnFlag = !divBtnFlag;
+
+        return product;
+    }
 }
 
 // Operate function, which is called to determine what operation to use, and the respective numbers that will be used in the operation
 function operate(operator, num1, num2) {
+
     if (operator === "+") {
         add(num1, num2);
     } else if (operator === "-") {
