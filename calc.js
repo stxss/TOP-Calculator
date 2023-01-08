@@ -9,7 +9,7 @@ let divBtn = document.querySelector(".divide");
 let mltBtn = document.querySelector(".multiply");
 let subBtn = document.querySelector(".subtract");
 let sumBth = document.querySelector(".sum");
-let eqlBtn = document.querySelector(".equals");
+let eqlBtn = document.querySelector("button.equals");
 let dotBtn = document.querySelector(".dot");
 let clrBtn = document.querySelector(".clear");
 
@@ -102,9 +102,10 @@ subBtn.addEventListener("click", () => {
 
 // Listener for the sum button
 sumBth.addEventListener("click", () => {
+    isOperator = !isOperator;
     slOperator = "+";
     if (manyPressed < 1) {
-        isOperator = true;
+        // isOperator = true;
         eqlBtn.click();
     }
 });
@@ -116,9 +117,10 @@ dotBtn.addEventListener("click", () => {
 
 // Listener for the equals button. 
 eqlBtn.addEventListener("click", () => {
+
     // When the user clicks enter, proceed to the operate function, which does all the calculations
-    operate(slOperator, n1, n2);
     isOperator = true;
+    operate(slOperator, n1, n2);
     manyPressed++;
 });
 
@@ -128,7 +130,6 @@ clrBtn.addEventListener("click", () => {
     // display.textContent = `${displayValue}`;
     display.textContent = 0;
     secValue = 0;
-    isOperator = false;
     // slOperator = "";
     n1 = 0;
     n2 = 0;
@@ -139,7 +140,7 @@ clrBtn.addEventListener("click", () => {
 // Operate function, which is called to determine what operation to use, and the respective numbers that will be used in the operation
 function operate(operator, num1, num2) {
 
-    if ((isOperator) && (num1) && (num2)){
+    if ((isOperator) && (num2)){
 
         if (operator === "+") {
             result = num1 + num2;
@@ -159,7 +160,7 @@ function operate(operator, num1, num2) {
         n1 = result;
         manyPressed = 0;
         console.log(parseFloat(result));
+        isOperator = false;
     }
 }
-
 
