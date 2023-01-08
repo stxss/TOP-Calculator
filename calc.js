@@ -129,9 +129,10 @@ eqlBtn.addEventListener("click", () => {
 
 // Clear button listener, clears all inputs and variables, resetting the calculator
 clrBtn.addEventListener("click", () => {
+
     displayValue = 0;
-    // display.textContent = `${displayValue}`;
     display.textContent = 0;
+    isOperator = false;
     secValue = 0;
     // slOperator = "";
     n1 = 0;
