@@ -21,6 +21,9 @@ let sumBtnFlag = false;
 let eqlBtnFlag = false;
 let dotBtnFlag = false;
 
+// How many times the operation button was pressed, this flag is used to prevent multiple button presses triggering the operation actions
+let manyPressed = 0; 
+
 // Setting the display value to empty, at first
 let displayValue;
 
@@ -38,13 +41,14 @@ let n1;
 let n2;
 let result;
 
-// Flag for a new operation after the first
+// Flag for a new operation after the first. This acts as a stopper if there isn't any number set for an operation yet
 let newOperation = false; 
 
 // Adding a listener for each of the number buttons, that will update the display when clicked.
 buttons.forEach((buttons) => {
     buttons.addEventListener("click", () => {
 
+        // If the operator isn't chosen/active/clicked yet, then update the first number until an operator is chosen
         if (!isOperator) {
             if (!displayValue) {
                 displayValue = buttons.id;
@@ -55,13 +59,14 @@ buttons.forEach((buttons) => {
                 displayValue += buttons.id;
             }
 
+            // Reflect the number insertion/update to the calculator display and parse it into an integer/number, as it is initially input as a string
             display.textContent = displayValue;
             n1 = parseInt(displayValue);
 
         } else {
+            // But if the operator is already chosen and there is already a result from an operation shown on the display, remove that class, updating a new n1 with whatever value the result was and setting n2 to undefined, effectively resetting that value, allowing the reuse of the result for shortened calculations (for e.g.: enter 2+3, click enter, click + 2, click enter, so, the result of the second calculation would be 5 + 2).
             if (displayValue && display.classList.contains("result")) {
                 display.classList.remove("result");
-                console.log(`new n1 is ${result}`);
                 n1 = result;
                 secValue = undefined;
             }
@@ -84,64 +89,64 @@ buttons.forEach((buttons) => {
     });
 });
 
+// Listener for the division button
 divBtn.addEventListener("click", () => {
-    isOperator = true;
+    // Updating the operator
     slOperator = "/";
 
-    if (!newOperation) {
-        divBtnFlag = true;
-        newOperation = true;
-    } else {
-        divBtnFlag = true;
-        eqlBtn.click();
+    // Explicitly saying that the button was already pressed one time, preventing the further clicks of the button to trigger calculations, so the user has the limitation to only click the operator buttons one time per operation, preventing "spamming" the buttons. This strategy repeats for every operation
+    if (manyPressed < 1) {
+        if (!newOperation) {
+            isOperator = true;
+            divBtnFlag = true;
+            newOperation = true;
+        } else {
+            // Proccing (aka triggering) the equal button to show the result when the user clicks an operator button when a result is already displayed, allowing for continuos calculations. This strategy repeats for every operation
+            eqlBtn.click();
+        }
     }
-
-    console.log(`divider operator is ${divBtnFlag}`);
 });
 
+// Listener for the multiplication button
 mltBtn.addEventListener("click", () => {
-    isOperator = true;
     slOperator = "*";
-
-    if (!newOperation) {
-        mltBtnFlag = true;
-        newOperation = true;
-    } else {
-        mltBtnFlag = true;
-        eqlBtn.click();
+    if (manyPressed < 1) {
+        if (!newOperation) {
+            isOperator = true;
+            mltBtnFlag = true;
+            newOperation = true;
+        } else {
+            eqlBtn.click();
+        }
     }
-
-    console.log(`multiplication operator is ${mltBtnFlag}`);
 });
 
+// Listener for the subtraction button
 subBtn.addEventListener("click", () => {
-    isOperator = true;
     slOperator = "-";
-
-    if (!newOperation) {
-        subBtnFlag = true;
-        newOperation = true;
-    } else {
-        subBtnFlag = true;
-        eqlBtn.click();
+    if (manyPressed < 1) {
+        if (!newOperation) {
+            isOperator = true;
+            subBtnFlag = true;
+            newOperation = true;
+        } else {
+            eqlBtn.click();
+        }
     }
-
-    console.log(`sub operator is ${subBtnFlag}`);
 });
 
+// Listener for the sum button
 sumBth.addEventListener("click", () => {
-    isOperator = true;
     slOperator = "+";
-
-    if (!newOperation) {
-        sumBtnFlag = true;
-        newOperation = true;
-    } else {
-        sumBtnFlag = true;
-        eqlBtn.click();
+    if (manyPressed < 1) {
+        if (!newOperation) {
+            isOperator = true;
+            sumBtnFlag = true;
+            newOperation = true;
+        } else {
+            eqlBtn.click();
+        }
     }
-
-    console.log(`sum operator is ${sumBtnFlag}`);
 });
 
 
@@ -149,14 +154,20 @@ dotBtn.addEventListener("click", () => {
 
 });
 
+// Listener for the equals button. 
 eqlBtn.addEventListener("click", () => {
-    isOperator = true;
     eqlBtnFlag = !eqlBtnFlag;
-    console.log(`equals is ${eqlBtnFlag}`);
-    operate(slOperator, n1, n2);
-
+    // The newOperation flag is checked for the calculations start. This acts as a stopper if there isn't any number set for an operation yet
+    if (newOperation) {
+        // When the user clicks enter, proceed to the operate function, which does all the calculations
+        operate(slOperator, n1, n2);
+        isOperator = true;
+        newOperation = true;
+        manyPressed++;
+    }
 });
 
+// Clear button listener, clears all inputs and variables, resetting the calculator
 clrBtn.addEventListener("click", () => {
     divBtnFlag = false;
     mltBtnFlag = false;
@@ -183,9 +194,7 @@ function add(num1, num2) {
     if ((n1) && (n2)) {
         num1 = parseInt(num1);
         num2 = parseInt(num2);
-
         let sum = (num1 + num2);
-
         sumBtnFlag = !sumBtnFlag;
         display.textContent = sum;
         return sum;
@@ -196,9 +205,7 @@ function add(num1, num2) {
 function subtract(num1, num2) {
     if ((n1) && (n2)) {
         let sum = (num1 - num2);
-
         subBtnFlag = !subBtnFlag;
-
         return sum;
     }
 }
@@ -207,9 +214,7 @@ function subtract(num1, num2) {
 function multiply(num1, num2) {
     if ((n1) && (n2)) {
         let product = (num1 * num2);
-
         mltBtnFlag = !mltBtnFlag;
-
         return product;
     }
 }
@@ -218,7 +223,6 @@ function multiply(num1, num2) {
 function divide(num1, num2) {
     if ((n1) && (n2)) {
         let product = (num1 / num2);
-
         divBtnFlag = !divBtnFlag;
         result = product;
         return product;
@@ -228,7 +232,6 @@ function divide(num1, num2) {
 // Operate function, which is called to determine what operation to use, and the respective numbers that will be used in the operation
 function operate(operator, num1, num2) {
     if ((!isOperator) || (!n1) || (!n2)) {
-        console.log(isOperator);
         console.log(n1);
         console.log(n2);
     } else if ((isOperator) && (n1) && ((n2) && (eqlBtnFlag))){
@@ -244,13 +247,13 @@ function operate(operator, num1, num2) {
         } else {
             return "Invalid Operator!";
         }
-        console.log(result);
         display.textContent = result;
-
         display.classList.add("result");
 
+        // Setting the new n1 to the result, in case the user wants to do more shortened calculations and resetting the manyPressed flag/counter
         n1 = result;
         eqlBtnFlag = !eqlBtnFlag;
+        manyPressed = 0;
         return result;
     }
 

@@ -48,7 +48,6 @@ body {
     width: 100px;
 }
 
-
 .operations {
     display: flex;
     flex-direction: column-reverse;
