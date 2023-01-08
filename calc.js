@@ -57,8 +57,9 @@ buttons.forEach((buttons) => {
             // But if the operator is already chosen and there is already a result from an operation shown on the display, remove that class, updating a new n1 with whatever value the result was and setting n2 to undefined, effectively resetting that value, allowing the reuse of the result for shortened calculations (for e.g.: enter 2+3, click enter, click + 2, click enter, so, the result of the second calculation would be 5 + 2).
             if (!secValue) {
                 secValue = buttons.id;
-            } else if (secValue) {
+            } else if (secValue || secValue.length < 1) {
                 secValue += buttons.id;
+
             }
             display.textContent = secValue;
             n2 = parseInt(secValue);
@@ -72,11 +73,11 @@ buttons.forEach((buttons) => {
 // Listener for the division button
 divBtn.addEventListener("click", () => {
     // Updating the operator
+    isOperator = !isOperator;
     slOperator = "/";
-
+    secValue = 0;
     // Explicitly saying that the button was already pressed one time, preventing the further clicks of the button to trigger calculations, so the user has the limitation to only click the operator buttons one time per operation, preventing "spamming" the buttons. This strategy repeats for every operation
     if (manyPressed < 1) {
-        isOperator = true;
         // Proccing (aka triggering) the equal button to show the result when the user clicks an operator button when a result is already displayed, allowing for continuos calculations. This strategy repeats for every operation
         eqlBtn.click();
     }
@@ -84,18 +85,20 @@ divBtn.addEventListener("click", () => {
 
 // Listener for the multiplication button
 mltBtn.addEventListener("click", () => {
+    isOperator = !isOperator;
     slOperator = "*";
+    secValue = 0;
     if (manyPressed < 1) {
-        isOperator = true;
         eqlBtn.click();
     }
 });
 
 // Listener for the subtraction button
 subBtn.addEventListener("click", () => {
+    isOperator = !isOperator;
     slOperator = "-";
+    secValue = 0;
     if (manyPressed < 1) {
-        isOperator = true;
         eqlBtn.click();
     }
 });
@@ -104,8 +107,8 @@ subBtn.addEventListener("click", () => {
 sumBth.addEventListener("click", () => {
     isOperator = !isOperator;
     slOperator = "+";
+    secValue = 0;
     if (manyPressed < 1) {
-        // isOperator = true;
         eqlBtn.click();
     }
 });
