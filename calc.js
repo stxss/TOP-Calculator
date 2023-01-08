@@ -156,3 +156,10 @@ function operate(operator, num1, num2) {
     }
 }
 
+// Todo: take care of pressing equals before entering all the numbers or symbols;
+// Todo: round numbers so they don't overflow the screen;
+// Todo: Print and error message when dividing by 0, not allowing it to crash the calculator;
+// Todo: Add floating point numbers (e.g: 2.5 or 31.75, etc...), not allowing for an input of more than one dot, for example by disabling the dot button if there is already one on the display;
+// Todo: make it look nice;
+// Todo: add a backspace/delete button, so the user can delete a wrong number;
+// Todo: add keyboard support;
