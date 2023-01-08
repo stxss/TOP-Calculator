@@ -8,7 +8,7 @@ let display = document.querySelector(".screen");
 let divBtn = document.querySelector(".divide");
 let mltBtn = document.querySelector(".multiply");
 let subBtn = document.querySelector(".subtract");
-let sumBth = document.querySelector(".sum");
+let sumBtn = document.querySelector(".sum");
 let eqlBtn = document.querySelector("button.equals");
 let dotBtn = document.querySelector(".dot");
 let clrBtn = document.querySelector(".clear");
@@ -70,48 +70,38 @@ buttons.forEach((buttons) => {
     });
 });
 
-// Listener for the division button
-divBtn.addEventListener("click", () => {
-    // Updating the operator
-    isOperator = !isOperator;
-    slOperator = "/";
+
+function handleOperatorClick(operator) {
+    isOperator = true;
+    slOperator = operator;
     secValue = 0;
     // Explicitly saying that the button was already pressed one time, preventing the further clicks of the button to trigger calculations, so the user has the limitation to only click the operator buttons one time per operation, preventing "spamming" the buttons. This strategy repeats for every operation
     if (manyPressed < 1) {
         // Proccing (aka triggering) the equal button to show the result when the user clicks an operator button when a result is already displayed, allowing for continuos calculations. This strategy repeats for every operation
         eqlBtn.click();
     }
+}
+
+// Listener for the division button
+divBtn.addEventListener("click", () => {
+    handleOperatorClick("/");
 });
 
 // Listener for the multiplication button
 mltBtn.addEventListener("click", () => {
-    isOperator = !isOperator;
-    slOperator = "*";
-    secValue = 0;
-    if (manyPressed < 1) {
-        eqlBtn.click();
-    }
+    handleOperatorClick("*");
 });
 
 // Listener for the subtraction button
 subBtn.addEventListener("click", () => {
-    isOperator = !isOperator;
-    slOperator = "-";
-    secValue = 0;
-    if (manyPressed < 1) {
-        eqlBtn.click();
-    }
+    handleOperatorClick("-");
 });
 
 // Listener for the sum button
-sumBth.addEventListener("click", () => {
-    isOperator = !isOperator;
-    slOperator = "+";
-    secValue = 0;
-    if (manyPressed < 1) {
-        eqlBtn.click();
-    }
+sumBtn.addEventListener("click", () => {
+    handleOperatorClick("+");
 });
+
 
 
 dotBtn.addEventListener("click", () => {
@@ -120,7 +110,6 @@ dotBtn.addEventListener("click", () => {
 
 // Listener for the equals button. 
 eqlBtn.addEventListener("click", () => {
-
     // When the user clicks enter, proceed to the operate function, which does all the calculations
     isOperator = true;
     operate(slOperator, n1, n2);
@@ -156,7 +145,6 @@ function operate(operator, num1, num2) {
             result = num1 / num2;
         }
 
-        // display.textContent = parseFloat(result);
         displayValue = result;
         display.textContent = `${displayValue}`;
 
