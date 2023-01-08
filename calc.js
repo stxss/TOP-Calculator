@@ -51,8 +51,6 @@ buttons.forEach((buttons) => {
             // Reflect the number insertion/update to the calculator display and parse it into an integer/number, as it is initially input as a string
             display.textContent = displayValue;
             n1 = parseInt(displayValue);
-            console.log(displayValue);
-            console.log(typeof displayValue);
         } else {
             // But if the operator is already chosen and there is already a result from an operation shown on the display, remove that class, updating a new n1 with whatever value the result was and setting n2 to undefined, effectively resetting that value, allowing the reuse of the result for shortened calculations (for e.g.: enter 2+3, click enter, click + 2, click enter, so, the result of the second calculation would be 5 + 2).
             if (!secValue) {
@@ -63,9 +61,6 @@ buttons.forEach((buttons) => {
             }
             display.textContent = secValue;
             n2 = parseInt(secValue);
-            console.log(secValue);
-            console.log(typeof secValue);
-
         }
     });
 });
@@ -151,7 +146,6 @@ function operate(operator, num1, num2) {
         // Setting the new num1 to the result, in case the user wants to do more shortened calculations and resetting the manyPressed flag/counter
         n1 = result;
         manyPressed = 0;
-        console.log(parseFloat(result));
         isOperator = false;
     }
 }
