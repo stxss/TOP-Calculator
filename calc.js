@@ -4,7 +4,7 @@ let buttons = document.querySelectorAll(".buttons .num");
 // Selecting the display screen
 let display = document.querySelector(".screen");
 
-// Selecting the operator, equals, delete, clear and dot/comma separator buttons
+// Selecting the numbers, operator, equals, delete, clear and dot separator buttons
 let divBtn = document.querySelector(".divide");
 let mltBtn = document.querySelector(".multiply");
 let subBtn = document.querySelector(".subtract");
@@ -12,6 +12,7 @@ let sumBtn = document.querySelector(".sum");
 let eqlBtn = document.querySelector("button.equals");
 let dotBtn = document.querySelector(".dot");
 let clrBtn = document.querySelector(".clear");
+let delBtn = document.querySelector(".delete");
 
 // Setting the display value to empty, at first
 let displayValue = 0;
@@ -35,12 +36,10 @@ let n1;
 let n2;
 let result;
 
-
 // Adding a listener for each of the number buttons, that will update the display when clicked.
 buttons.forEach((buttons) => {
     buttons.addEventListener("click", () => {
         // If the operator isn't chosen/active/clicked yet, then update the first number until an operator is chosen
-
         if (!isOperator) {
             if (!displayValue) {
                 displayValue = buttons.id;
@@ -48,7 +47,6 @@ buttons.forEach((buttons) => {
                 displayValue += buttons.id;
                 n1 = result;
             }
-
             // Reflect the number insertion/update to the calculator display and parse it into an float/number, as it is initially input as a string.
             // The parsing is of the display.textContent to allow the option to have dots in the numbers
             display.textContent = displayValue;
@@ -70,7 +68,6 @@ buttons.forEach((buttons) => {
 
 
 function handleOperatorClick(operator) {
-
     // If there is already an operator chosen (isOperator flag is true) and there are n1 and n2 numbers in place, if the user clicks another operator, instead of switching the already existing operator, it completes the calculation with the already existing variables
     if ((isOperator) && (n1) && (n2)) {
         // Proccing (aka triggering) the equal button to show the result when the user clicks an operator button when a result is already displayed, allowing for continuos calculations. This strategy repeats for every operation
@@ -106,7 +103,6 @@ sumBtn.addEventListener("click", () => {
 dotBtn.addEventListener("click", () => {
 
     // Handling the dot adding on the left and right sides of the operator. If the dot count is more than 1, return, thus not allowing to add more than one dot
-
     if (!isOperator) {
         dotCountFirst++;
         if (dotCountFirst > 1) {
@@ -128,10 +124,10 @@ dotBtn.addEventListener("click", () => {
             displayValue = "0.";
         } else if (displayValue) {
             displayValue += ".";
-            n1 = result;
         }
     } else {
         if (!secValue) {
+            display.textContent = "0.";
             secValue = "0.";
         } else if (secValue && secValue.length < 1) {
             secValue = ".";
@@ -144,24 +140,32 @@ dotBtn.addEventListener("click", () => {
 // Listener for the equals button. 
 eqlBtn.addEventListener("click", () => {
     // When the user clicks enter, proceed to the operate function, which does all the calculations
+
     isOperator = true;
     if (slOperator === "/" && n2 === 0) {
         display.textContent = "No divisions by 0!";
-        displayValue = 0;
         slOperator = "";
-        isOperator = false;
+        displayValue = 0;
         secValue = 0;
+        isOperator = false;
         n1 = 0;
         n2 = 0;
         result = 0;
     } else if (n2) {
-        console.log(n1);
+        // If any number ends with a dot, and the user forgot to add something to the right of the dot, automatically assume it ends with a 0
+        if (n2.toString().endsWith(".")) {
+            n2 -= ".";
+        }
+        // If everything is okay, call the operation function
         operate(slOperator, n1, n2);
-        console.log(slOperator);
-        console.log(n2);
-        console.log(result);
         n1 = result;
+
+        // If somehow the user operates something that is impossible (a string with a number), it will throw an error 
+        if (isNaN(result)) {
+            display.textContent = "Invalid operation! Use only numbers!";
+        }
     }
+
     // Resetting the dot counters, so it's possible to use them in other numbers as well
     dotCountFirst = 0;
     dotCountSecond = 0;
@@ -180,6 +184,25 @@ clrBtn.addEventListener("click", () => {
     dotCountSecond = 0;
 });
 
+// Delete button event listener
+delBtn.addEventListener("click", () => {
+    // If there is no operator chosen yet, any clicks on the delete button, will delete from the first number, else, they will delete from the second number
+    if (!isOperator) {
+        let val = display.textContent;
+        let newVal = val.substring(0, val.length - 1);
+        display.textContent = newVal;
+        displayValue = display.textContent;
+        n1 = parseFloat(displayValue);
+    } else {
+        let val = display.textContent;
+        let newVal = val.substring(0, val.length - 1);
+        display.textContent = newVal;
+        secValue = display.textContent;
+        n2 = parseFloat(secValue);
+    }
+    dotCountFirst = 0;
+    dotCountSecond = 0;
+});
 
 // Operate function, which is called to determine what operation to use, and the respective numbers that will be used in the operation
 function operate(operator, num1, num2) {
@@ -195,10 +218,7 @@ function operate(operator, num1, num2) {
             result = num1 / num2;
         }
 
-        if (isNaN(result)) {
-            console.log("Invalid operation!");
-        }
-
+        // Parsing the result to 9 decimal numbers only
         displayValue = parseFloat(result.toFixed(9));
         display.textContent = `${displayValue}`;
 
@@ -208,8 +228,6 @@ function operate(operator, num1, num2) {
     }
 }
 
-// Todo: Add floating point numbers (e.g: 2.5 or 31.75, etc...), not allowing for an input of more than one dot, for example by disabling the dot button if there is already one on the display;
-// Todo: add a backspace/delete button, so the user can delete a wrong number;
 // Todo: add keyboard support;
 // Todo: make it look nice;
 
