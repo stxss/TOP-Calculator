@@ -26,6 +26,10 @@ let isOperator = false;
 // Creating the variable to store the operator, once it is selected
 let slOperator = "";
 
+// Creating a counter to not allow for more than 1 dot later on
+let dotCountFirst = 0;
+let dotCountSecond = 0;
+
 //  Passing the number values to numbers
 let n1;
 let n2;
@@ -45,9 +49,10 @@ buttons.forEach((buttons) => {
                 n1 = result;
             }
 
-            // Reflect the number insertion/update to the calculator display and parse it into an integer/number, as it is initially input as a string
+            // Reflect the number insertion/update to the calculator display and parse it into an float/number, as it is initially input as a string.
+            // The parsing is of the display.textContent to allow the option to have dots in the numbers
             display.textContent = displayValue;
-            n1 = parseInt(displayValue);
+            n1 = parseFloat(display.textContent);
         } else {
             // But if the operator is already chosen and there is already a result from an operation shown on the display, remove that class, updating a new n1 with whatever value the result was and setting n2 to undefined, effectively resetting that value, allowing the reuse of the result for shortened calculations (for e.g.: enter 2+3, click enter, click + 2, click enter, so, the result of the second calculation would be 5 + 2).
             if (!secValue) {
@@ -58,7 +63,7 @@ buttons.forEach((buttons) => {
                 secValue += buttons.id;
             }
             display.textContent = secValue;
-            n2 = parseInt(secValue);
+            n2 = parseFloat(display.textContent);
         }
     });
 });
@@ -100,6 +105,40 @@ sumBtn.addEventListener("click", () => {
 
 dotBtn.addEventListener("click", () => {
 
+    // Handling the dot adding on the left and right sides of the operator. If the dot count is more than 1, return, thus not allowing to add more than one dot
+
+    if (!isOperator) {
+        dotCountFirst++;
+        if (dotCountFirst > 1) {
+            return;
+        }
+    } else {
+        dotCountSecond++;
+        if (dotCountSecond > 1) {
+            return;
+        }
+    }
+
+    // Adding the dot in the visual
+    display.textContent += ".";
+
+    // Adding the dot to the actual value for the mathematical operations
+    if (!isOperator) {
+        if (!displayValue) {
+            displayValue = "0.";
+        } else if (displayValue) {
+            displayValue += ".";
+            n1 = result;
+        }
+    } else {
+        if (!secValue) {
+            secValue = "0.";
+        } else if (secValue && secValue.length < 1) {
+            secValue = ".";
+        } else if (secValue && secValue.length >= 1) {
+            secValue += ".";
+        }
+    }
 });
 
 // Listener for the equals button. 
@@ -109,19 +148,23 @@ eqlBtn.addEventListener("click", () => {
     if (slOperator === "/" && n2 === 0) {
         display.textContent = "No divisions by 0!";
         displayValue = 0;
+        slOperator = "";
         isOperator = false;
         secValue = 0;
         n1 = 0;
         n2 = 0;
         result = 0;
     } else if (n2) {
-        operate(slOperator, n1, n2);
         console.log(n1);
+        operate(slOperator, n1, n2);
         console.log(slOperator);
         console.log(n2);
         console.log(result);
         n1 = result;
     }
+    // Resetting the dot counters, so it's possible to use them in other numbers as well
+    dotCountFirst = 0;
+    dotCountSecond = 0;
 });
 
 // Clear button listener, clears all inputs and variables, resetting the calculator
@@ -133,6 +176,8 @@ clrBtn.addEventListener("click", () => {
     n1 = 0;
     n2 = 0;
     result = 0;
+    dotCountFirst = 0;
+    dotCountSecond = 0;
 });
 
 
@@ -160,14 +205,11 @@ function operate(operator, num1, num2) {
         // Setting the new num1 to the result, in case the user wants to do more shortened calculations
         n1 = result;
         isOperator = false;
-
     }
 }
 
-// Todo: take care of when pressing a different operator, for it to 
-// Todo: take care of pressing equals before entering all the numbers or symbols;
 // Todo: Add floating point numbers (e.g: 2.5 or 31.75, etc...), not allowing for an input of more than one dot, for example by disabling the dot button if there is already one on the display;
 // Todo: add a backspace/delete button, so the user can delete a wrong number;
 // Todo: add keyboard support;
 // Todo: make it look nice;
-// ! take care of when doing any operation and instead of clicking =, clicking any other operator, it concatenates the numbers instead of operating them
+
