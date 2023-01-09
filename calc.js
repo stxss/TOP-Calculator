@@ -13,9 +13,6 @@ let eqlBtn = document.querySelector("button.equals");
 let dotBtn = document.querySelector(".dot");
 let clrBtn = document.querySelector(".clear");
 
-// How many times the operation button was pressed, this flag is used to prevent multiple button presses triggering the operation actions
-let manyPressed = 0; 
-
 // Setting the display value to empty, at first
 let displayValue = 0;
 display.textContent = `${displayValue}`;
@@ -69,23 +66,17 @@ buttons.forEach((buttons) => {
 
 function handleOperatorClick(operator) {
 
-
+    // If there is already an operator chosen (isOperator flag is true) and there are n1 and n2 numbers in place, if the user clicks another operator, instead of switching the already existing operator, it completes the calculation with the already existing variables
     if ((isOperator) && (n1) && (n2)) {
+        // Proccing (aka triggering) the equal button to show the result when the user clicks an operator button when a result is already displayed, allowing for continuos calculations. This strategy repeats for every operation
         eqlBtn.click();
     }
+
+    // After that calculation, the isOperator is set to true again, the selected operator is changed, the second value is set to 0 and the value for the amount of presses to the operator is augmented
     isOperator = true;
     slOperator = operator;
     secValue = 0;
-    manyPressed++;
-
-    // // Explicitly saying that the button was already pressed one time, preventing the further clicks of the button to trigger calculations, so the user has the limitation to only click the operator buttons one time per operation, preventing "spamming" the buttons. This strategy repeats for every operation
-    // if (manyPressed > 1) {
-    // // Proccing (aka triggering) the equal button to show the result when the user clicks an operator button when a result is already displayed, allowing for continuos calculations. This strategy repeats for every operation
-    //     eqlBtn.click();
-    // }
 }
-
-// }
 
 // Listener for the division button
 divBtn.addEventListener("click", () => {
@@ -125,14 +116,10 @@ eqlBtn.addEventListener("click", () => {
         result = 0;
     } else if (n2) {
         operate(slOperator, n1, n2);
-        // operate(slOperator, n1, n2);
         console.log(n1);
         console.log(slOperator);
         console.log(n2);
         console.log(result);
-        console.log(`manyPressed is ${manyPressed}`);
-        // manyPressed++;
-        // manyPressed = 0;
         n1 = result;
     }
 });
@@ -146,7 +133,6 @@ clrBtn.addEventListener("click", () => {
     n1 = 0;
     n2 = 0;
     result = 0;
-    manyPressed = 0;
 });
 
 
@@ -171,10 +157,10 @@ function operate(operator, num1, num2) {
         displayValue = parseFloat(result.toFixed(9));
         display.textContent = `${displayValue}`;
 
-        // Setting the new num1 to the result, in case the user wants to do more shortened calculations and resetting the manyPressed flag/counter
+        // Setting the new num1 to the result, in case the user wants to do more shortened calculations
         n1 = result;
         isOperator = false;
-        // manyPressed = 0;
+
     }
 }
 
