@@ -97,8 +97,6 @@ sumBtn.addEventListener("click", () => {
     handleOperatorClick("+");
 });
 
-
-
 dotBtn.addEventListener("click", () => {
 
 });
@@ -113,7 +111,6 @@ eqlBtn.addEventListener("click", () => {
 
 // Clear button listener, clears all inputs and variables, resetting the calculator
 clrBtn.addEventListener("click", () => {
-
     displayValue = 0;
     display.textContent = 0;
     isOperator = false;
@@ -140,7 +137,7 @@ function operate(operator, num1, num2) {
             result = num1 / num2;
         }
 
-        displayValue = result;
+        displayValue = parseFloat(result.toFixed(9));
         display.textContent = `${displayValue}`;
 
         // Setting the new num1 to the result, in case the user wants to do more shortened calculations and resetting the manyPressed flag/counter
@@ -151,9 +148,8 @@ function operate(operator, num1, num2) {
 }
 
 // Todo: take care of pressing equals before entering all the numbers or symbols;
-// Todo: round numbers so they don't overflow the screen;
 // Todo: Print and error message when dividing by 0, not allowing it to crash the calculator;
 // Todo: Add floating point numbers (e.g: 2.5 or 31.75, etc...), not allowing for an input of more than one dot, for example by disabling the dot button if there is already one on the display;
-// Todo: make it look nice;
 // Todo: add a backspace/delete button, so the user can delete a wrong number;
+// Todo: make it look nice;
 // Todo: add keyboard support;
