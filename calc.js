@@ -55,9 +55,10 @@ buttons.forEach((buttons) => {
             // But if the operator is already chosen and there is already a result from an operation shown on the display, remove that class, updating a new n1 with whatever value the result was and setting n2 to undefined, effectively resetting that value, allowing the reuse of the result for shortened calculations (for e.g.: enter 2+3, click enter, click + 2, click enter, so, the result of the second calculation would be 5 + 2).
             if (!secValue) {
                 secValue = buttons.id;
-            } else if (secValue || secValue.length < 1) {
+            } else if (secValue && secValue.length < 1) {
+                secValue = buttons.id;
+            } else if (secValue && secValue.length >= 1) {
                 secValue += buttons.id;
-
             }
             display.textContent = secValue;
             n2 = parseInt(secValue);
@@ -105,8 +106,19 @@ dotBtn.addEventListener("click", () => {
 eqlBtn.addEventListener("click", () => {
     // When the user clicks enter, proceed to the operate function, which does all the calculations
     isOperator = true;
-    operate(slOperator, n1, n2);
-    manyPressed++;
+    if (slOperator === "/" && n2 === 0) {
+        display.textContent = "No divisions by 0!";
+        displayValue = 0;
+        isOperator = false;
+        secValue = 0;
+        n1 = 0;
+        n2 = 0;
+        result = 0;
+    } else if (n2) {
+        operate(slOperator, n1, n2);
+        manyPressed++; 
+    } 
+
 });
 
 // Clear button listener, clears all inputs and variables, resetting the calculator
@@ -115,7 +127,6 @@ clrBtn.addEventListener("click", () => {
     display.textContent = 0;
     isOperator = false;
     secValue = 0;
-    // slOperator = "";
     n1 = 0;
     n2 = 0;
     result = 0;
@@ -126,7 +137,6 @@ clrBtn.addEventListener("click", () => {
 function operate(operator, num1, num2) {
 
     if ((isOperator) && (num2)){
-
         if (operator === "+") {
             result = num1 + num2;
         } else if (operator === "-") {
@@ -135,6 +145,10 @@ function operate(operator, num1, num2) {
             result = num1 * num2;
         } else if (operator === "/") {
             result = num1 / num2;
+        }
+
+        if (isNaN(result)) {
+            console.log("Invalid operation!");
         }
 
         displayValue = parseFloat(result.toFixed(9));
@@ -147,9 +161,9 @@ function operate(operator, num1, num2) {
     }
 }
 
+
 // Todo: take care of pressing equals before entering all the numbers or symbols;
-// Todo: Print and error message when dividing by 0, not allowing it to crash the calculator;
 // Todo: Add floating point numbers (e.g: 2.5 or 31.75, etc...), not allowing for an input of more than one dot, for example by disabling the dot button if there is already one on the display;
 // Todo: add a backspace/delete button, so the user can delete a wrong number;
-// Todo: make it look nice;
 // Todo: add keyboard support;
+// Todo: make it look nice;
