@@ -253,6 +253,4 @@ function keyboardPress(key) {
     }
 }
 
-// todo: take care of screen overflow when writing
-// Todo: make it look (and sound ?)nice;
 
