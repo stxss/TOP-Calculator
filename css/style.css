@@ -19,6 +19,7 @@ body {
     justify-content: center;
     width: 275px;
     height: 375px;
+    scale: 1.8;
     background-color: #5E548E;
     border-radius: 10px;
 }
