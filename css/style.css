@@ -68,12 +68,12 @@ body {
 
 .buttons button.clear,
 .buttons button.delete,
-.buttons button.divide,
-.buttons button.multiply,
-.buttons button.subtract,
-.buttons button.sum,
-.buttons button.equals,
-.buttons button.dot {
+.divide,
+.multiply,
+.subtract,
+.sum,
+.equals,
+.dot {
     background-color: #f4a9ff;
 }
 
@@ -94,7 +94,6 @@ body {
     border: 0;
     border-radius: 5px;
     background-color: #C7B6DD;
-
     overflow:hidden;
     white-space: nowrap;
     text-overflow: "-";
