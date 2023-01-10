@@ -1,4 +1,4 @@
-// Selecting the number buttons 
+// Selecting the number buttons
 let buttons = document.querySelectorAll(".buttons .num");
 
 // Selecting the display screen
@@ -72,7 +72,7 @@ function numberClick(id) {
 
 function handleOperatorClick(operator) {
     // If there is already an operator chosen (isOperator flag is true) and there are n1 and n2 numbers in place, if the user clicks another operator, instead of switching the already existing operator, it completes the calculation with the already existing variables
-    if ((isOperator) && (n1) && (n2)) {
+    if (isOperator && n1 && n2) {
         // Proccing (aka triggering) the equal button to show the result when the user clicks an operator button when a result is already displayed, allowing for continuos calculations. This strategy repeats for every operation
         eqlBtn.click();
     }
@@ -139,7 +139,7 @@ dotBtn.addEventListener("click", () => {
     }
 });
 
-// Listener for the equals button. 
+// Listener for the equals button.
 eqlBtn.addEventListener("click", () => {
     // When the user clicks enter, proceed to the operate function, which does all the calculations
     isOperator = true;
@@ -162,7 +162,7 @@ eqlBtn.addEventListener("click", () => {
         operate(slOperator, n1, n2);
         n1 = result;
 
-        // If somehow the user operates something that is impossible (a string with a number), it will throw an error 
+        // If somehow the user operates something that is impossible (a string with a number), it will throw an error
         if (isNaN(result)) {
             display.textContent = "Invalid operation! Use only numbers!";
         }
@@ -208,7 +208,7 @@ delBtn.addEventListener("click", () => {
 
 // Operate function, which is called to determine what operation to use, and the respective numbers that will be used in the operation
 function operate(operator, num1, num2) {
-    if ((isOperator) && (num2)){
+    if (isOperator && num2) {
         if (operator === "+") {
             result = num1 + num2;
         } else if (operator === "-") {
@@ -236,11 +236,11 @@ document.addEventListener("keydown", (e) => {
 
 // Handling the keys input
 function keyboardPress(key) {
-    let numbers = [0,1,2,3,4,5,6,7,8,9];
+    let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     if (key in numbers) {
         numberClick(key);
-    } else if (key === "+" || key === "-"|| key === "*" || key === "/") {
+    } else if (key === "+" || key === "-" || key === "*" || key === "/") {
         handleOperatorClick(key);
     } else if (key === ".") {
         dotBtn.click();
@@ -252,5 +252,3 @@ function keyboardPress(key) {
         clrBtn.click();
     }
 }
-
-
