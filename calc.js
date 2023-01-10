@@ -36,7 +36,7 @@ let n1;
 let n2;
 let result;
 
-// Adding a listener for each of the number buttons, that will update the display when clicked.
+// Adding a listener for each of the number buttons, that will update the display when clicked via calling the function that handles the buttons/keys id's
 buttons.forEach((buttons) => {
     buttons.addEventListener("click", () => {
         numberClick(buttons.id);
@@ -44,6 +44,7 @@ buttons.forEach((buttons) => {
 });
 
 function numberClick(id) {
+    // If the operator isn't chosen/active/clicked yet, then update the first number until an operator is chosen
     if (!isOperator) {
         if (!displayValue) {
             displayValue = id;
@@ -68,37 +69,6 @@ function numberClick(id) {
         n2 = parseFloat(display.textContent);
     }
 }
-
-
-
-// buttons.forEach((buttons) => {
-//     buttons.addEventListener("click", () => {
-//         // If the operator isn't chosen/active/clicked yet, then update the first number until an operator is chosen
-//         if (!isOperator) {
-//             if (!displayValue) {
-//                 displayValue = buttons.id;
-//             } else if (displayValue) {
-//                 displayValue += buttons.id;
-//                 n1 = result;
-//             }
-//             // Reflect the number insertion/update to the calculator display and parse it into an float/number, as it is initially input as a string.
-//             // The parsing is of the display.textContent to allow the option to have dots in the numbers
-//             display.textContent = displayValue;
-//             n1 = parseFloat(display.textContent);
-//         } else {
-//             // But if the operator is already chosen and there is already a result from an operation shown on the display, remove that class, updating a new n1 with whatever value the result was and setting n2 to undefined, effectively resetting that value, allowing the reuse of the result for shortened calculations (for e.g.: enter 2+3, click enter, click + 2, click enter, so, the result of the second calculation would be 5 + 2).
-//             if (!secValue) {
-//                 secValue = buttons.id;
-//             } else if (secValue && secValue.length < 1) {
-//                 secValue = buttons.id;
-//             } else if (secValue && secValue.length >= 1) {
-//                 secValue += buttons.id;
-//             }
-//             display.textContent = secValue;
-//             n2 = parseFloat(display.textContent);
-//         }
-//     });
-// });
 
 function handleOperatorClick(operator) {
     // If there is already an operator chosen (isOperator flag is true) and there are n1 and n2 numbers in place, if the user clicks another operator, instead of switching the already existing operator, it completes the calculation with the already existing variables
@@ -134,7 +104,6 @@ sumBtn.addEventListener("click", () => {
 });
 
 dotBtn.addEventListener("click", () => {
-
     // Handling the dot adding on the left and right sides of the operator. If the dot count is more than 1, return, thus not allowing to add more than one dot
     if (!isOperator) {
         dotCountFirst++;
@@ -173,7 +142,6 @@ dotBtn.addEventListener("click", () => {
 // Listener for the equals button. 
 eqlBtn.addEventListener("click", () => {
     // When the user clicks enter, proceed to the operate function, which does all the calculations
-
     isOperator = true;
     if (slOperator === "/" && n2 === 0) {
         display.textContent = "No divisions by 0!";
@@ -189,6 +157,7 @@ eqlBtn.addEventListener("click", () => {
         if (n2.toString().endsWith(".")) {
             n2 -= ".";
         }
+
         // If everything is okay, call the operation function
         operate(slOperator, n1, n2);
         n1 = result;
@@ -239,7 +208,6 @@ delBtn.addEventListener("click", () => {
 
 // Operate function, which is called to determine what operation to use, and the respective numbers that will be used in the operation
 function operate(operator, num1, num2) {
-
     if ((isOperator) && (num2)){
         if (operator === "+") {
             result = num1 + num2;
@@ -261,10 +229,12 @@ function operate(operator, num1, num2) {
     }
 }
 
+// Adding the event listeners for the keyboard keys
 document.addEventListener("keydown", (e) => {
     keyboardPress(e.key);
 });
 
+// Handling the keys input
 function keyboardPress(key) {
     let numbers = [0,1,2,3,4,5,6,7,8,9];
 
@@ -283,5 +253,6 @@ function keyboardPress(key) {
     }
 }
 
+// todo: take care of screen overflow when writing
 // Todo: make it look (and sound ?)nice;
 

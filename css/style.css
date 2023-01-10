@@ -1,6 +1,8 @@
 html,
 body {
     height: 100%;
+    font-family: roboto;
+    font-size: larger;
 }
 
 body {
@@ -8,30 +10,42 @@ body {
     align-items: center;
     justify-content: center;
     align-content: center;
+    background-color: #231942;
+}
+
+.container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 275px;
+    height: 375px;
+    background-color: #5E548E;
+    border-radius: 10px;
 }
 
 .calculator {
+    position: absolute;
     display: flex;
-    align-content: center;
     justify-content: center;
     align-items: flex-end;
-}
-
-.calculator {
-    display: flex;
-
+    flex: 0 0;
+    margin: 20px;
 }
 
 .calc-numbers {
     display: flex;
-    height: 250px;
-    width: 200px;
+    height: 275px;
+    width: 220px;
 }
 
 .buttons {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    flex: 1 0;
+
 }
 .buttons button {
     display: flex;
@@ -41,36 +55,44 @@ body {
     align-items: center;
     height: 50px;
     width: 50px;
+    background-color: #E7C6FF;
+    border-radius: 5px;
+    border: 0;
+    margin: 2px;
 }
 
 .buttons button.clear,
 .buttons button.delete {
-    width: 100px;
+    width: 105px;
 }
 
-.operations {
-    display: flex;
-    flex-direction: column-reverse;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
+.buttons button.clear,
+.buttons button.delete,
+.buttons button.divide,
+.buttons button.multiply,
+.buttons button.subtract,
+.buttons button.sum,
+.buttons button.equals,
+.buttons button.dot {
+    background-color: #f4a9ff;
 }
 
-.operations button {
-    width: 50px;
-    height: 50px;
-}
 
 .screen {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-
-    width: 200px;
-    height: 50px;
-
+    color: #000000;
+    width: 195px;
+    height: 40px;
+    margin: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     position: relative;
-    bottom: 250px;
-    right: 200px;
-    border: 1px solid black;
+    bottom: 285px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #C7B6DD;
 }
+
